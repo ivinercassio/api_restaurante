@@ -7,5 +7,7 @@ import br.cefetmg.restaurante.model.Ingrediente;
 
 @Repository
 public interface IngredienteRepository extends JpaRepository<Ingrediente, Long>{
+
+    Ingrediente findByDescricao(String descricao);
     
 }
