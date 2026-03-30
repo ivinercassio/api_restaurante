@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.cefetmg.restaurante.model.Cardapio;
 
 @Repository
-public interface CardapioRepository extends JpaRepository<Long, Cardapio> {
+public interface CardapioRepository extends JpaRepository<Cardapio, Long> {
     
 }

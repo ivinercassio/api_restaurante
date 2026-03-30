@@ -3,14 +3,13 @@ package br.cefetmg.restaurante.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,9 +35,7 @@ public class Receita {
     @Column(nullable = false)
     private Double valor;
 
-    @ManyToMany
-    @JoinTable(name = "receita_ingrediente", joinColumns = { @JoinColumn(name = "receita_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "ingrediente_id") })
-    private List<Ingrediente> ingredientes = new ArrayList<>();
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReceitaIngrediente> ingredientes = new ArrayList<>();
 
 }

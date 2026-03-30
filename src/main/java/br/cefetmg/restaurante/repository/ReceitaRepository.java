@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.cefetmg.restaurante.model.Receita;
 
 @Repository
-public interface ReceitaRepository extends JpaRepository<Long, Receita> {
+public interface ReceitaRepository extends JpaRepository<Receita, Long> {
     
 } 

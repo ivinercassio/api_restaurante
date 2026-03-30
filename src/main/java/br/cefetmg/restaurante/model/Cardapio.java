@@ -1,12 +1,15 @@
-package br.cefetmg.restaurante.model;
+package br.cefetmg.restaurante.model; 
 
 import java.util.List;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,9 +26,16 @@ public class Cardapio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true)
+    @Enumerated(EnumType.STRING) 
     private EnumDia descricao;
     
-    @Column(nullable = false)
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "cardapio_receita",
+    //     joinColumns = @JoinColumn(name = "cardapio_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "receita_id")
+    // )
+    @OneToMany
+    @JoinColumn(name = "cardapio_id")
     private List<Receita> receitas;
 }

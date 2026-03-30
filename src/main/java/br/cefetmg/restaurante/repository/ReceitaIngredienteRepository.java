@@ -3,9 +3,9 @@ package br.cefetmg.restaurante.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.cefetmg.restaurante.model.Ingrediente;
+import br.cefetmg.restaurante.model.ReceitaIngrediente;
 
 @Repository
-public interface IngredienteRepository extends JpaRepository<Ingrediente, Long>{
+public interface ReceitaIngredienteRepository extends JpaRepository<ReceitaIngrediente, Long> {
     
 }
