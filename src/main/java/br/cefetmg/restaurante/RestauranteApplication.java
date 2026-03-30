@@ -10,13 +10,12 @@ public class RestauranteApplication {
 		SpringApplication.run(RestauranteApplication.class, args);
 
 		/*
-		 * API PENSANDO EM UMA REDE DE RESTAURANTES
-		 * COM UM CARDAPIO POR DIA (CADA UM COM VARIOS PRATOS)
+		 * API RESTAURANTE
+		 * UM CARDAPIO POR DIA (CADA UM COM VARIOS PRATOS)
 		 * ingrediente - várias - receitas
 		 * receita - vários - ingredientes
 		 * cardápio - várias - receitas
 		 * restaurante - vários - cardápios (por dia)
-		 * restaurantes - várias - unidades
 		 */
 	}
 
