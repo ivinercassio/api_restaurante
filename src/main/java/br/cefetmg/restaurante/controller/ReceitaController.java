@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/vi/receitas")
+@RequestMapping("/api/v1/receitas")
 public class ReceitaController {
     
     private final ReceitaService receitaService;
