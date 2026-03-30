@@ -26,7 +26,7 @@ public class Receita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String titulo;
 
     @Column(nullable = true)
@@ -36,6 +36,6 @@ public class Receita {
     private Double valor;
 
     @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReceitaIngrediente> ingredientes = new ArrayList<>();
+    private List<ReceitaIngrediente> relacionamentos = new ArrayList<>();
 
 }

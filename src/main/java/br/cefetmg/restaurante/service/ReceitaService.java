@@ -1,0 +1,77 @@
+package br.cefetmg.restaurante.service;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import br.cefetmg.restaurante.model.Receita;
+// import br.cefetmg.restaurante.model.ReceitaIngrediente;
+import br.cefetmg.restaurante.repository.ReceitaRepository;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ReceitaService {
+    
+    private final ReceitaRepository receitaRepository;
+    // private final ReceitaIngrediente receitaIngredienteService;
+
+    public Receita get(Long id) {
+        Receita Receita = receitaRepository.findById(id).orElse(null);
+        if (Receita == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrado Receita com o id: " + id);
+        return Receita;
+    }
+
+    public List<Receita> getAll() {
+        return receitaRepository.findAll();
+    }
+
+    public Receita insert(Receita receita) {
+        receita.setId(null);
+        if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
+
+        Receita novoRegistro = receitaRepository.save(receita);
+
+        // COMANDO EM CASCATA
+        // for (ReceitaIngrediente relacionamento : receita.getRelacionamentos()) 
+        //     receitaIngredienteService.insert(relacionamento);
+
+        return novoRegistro;
+    }
+
+    public Receita update(Receita receita) {
+        if (receita.getId() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "O campo id é obrigatório.");
+        Receita registro = get(receita.getId()); // verifica se existe registro com este id
+        if (!registro.getTitulo().equals(receita.getTitulo()))
+            if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
+
+        Receita novoRegistro = receitaRepository.save(receita);
+
+        // COMANDO EM CASCATA
+        // for (ReceitaIngrediente relacionamento : receita.getRelacionamentos()) 
+        //     receitaIngredienteService.update(relacionamento);
+
+        return novoRegistro;
+    }
+
+    public Receita delete(Long id) {
+        Receita Receita = get(id); // verifica se existe registro com este id
+
+        // COMANDO EM CASCATA
+        // for (ReceitaIngrediente relacionamento : receita.getRelacionamentos()) 
+        //     receitaIngredienteService.update(relacionamento);
+
+        receitaRepository.deleteById(id);
+        return Receita;
+    }
+
+    // public Receita addIngrediente(@ResponseBody Ingrediente ingrediente) {}
+
+    // public Receita removerIngrediente(@PathVariable Long id) {}
+}
