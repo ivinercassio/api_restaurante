@@ -3,6 +3,7 @@ package br.cefetmg.restaurante.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Entity;
@@ -41,17 +42,17 @@ public class Receita {
     @JoinColumn(name = "id_cardapio", nullable = false, foreignKey = @ForeignKey(name = "fk_receita_cardapio"))
     private Cardapio cardapio;
 
-    @OneToMany(mappedBy = "receita")
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReceitaIngrediente> itens = new ArrayList<>();
 
     public void addIngrediente(Ingrediente ingrediente, String quantidade) {
-        ReceitaIngrediente receitaIngrediente = new ReceitaIngrediente();
-        receitaIngrediente.setId(new ReceitaIngredienteId(this.getId(), ingrediente.getId()));
-        receitaIngrediente.setIngrediente(ingrediente);
-        receitaIngrediente.setQuantidade(quantidade);
-        receitaIngrediente.setReceita(this);
-        this.itens.add(receitaIngrediente);
-    }
+    ReceitaIngrediente item = ReceitaIngrediente.builder()
+            .receita(this)
+            .ingrediente(ingrediente)
+            .quantidade(quantidade)
+            .build();
+    this.itens.add(item);
+}
 
     // public Receita removerIngrediente(@PathVariable Long id) {}
 }
