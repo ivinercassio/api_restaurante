@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.cefetmg.restaurante.model.Receita;
-// import br.cefetmg.restaurante.model.ReceitaIngrediente;
 import br.cefetmg.restaurante.repository.ReceitaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 public class ReceitaService {
     
     private final ReceitaRepository receitaRepository;
-    // private final ReceitaIngrediente receitaIngredienteService;
 
     public Receita get(Long id) {
         Receita Receita = receitaRepository.findById(id).orElse(null);
@@ -33,14 +31,7 @@ public class ReceitaService {
         receita.setId(null);
         if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
-
-        Receita novoRegistro = receitaRepository.save(receita);
-
-        // COMANDO EM CASCATA
-        // for (ReceitaIngrediente relacionamento : receita.getRelacionamentos()) 
-        //     receitaIngredienteService.insert(relacionamento);
-
-        return novoRegistro;
+        return receitaRepository.save(receita);
     }
 
     public Receita update(Receita receita) {
@@ -50,28 +41,12 @@ public class ReceitaService {
         if (!registro.getTitulo().equals(receita.getTitulo()))
             if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
-
-        Receita novoRegistro = receitaRepository.save(receita);
-
-        // COMANDO EM CASCATA
-        // for (ReceitaIngrediente relacionamento : receita.getRelacionamentos()) 
-        //     receitaIngredienteService.update(relacionamento);
-
-        return novoRegistro;
+        return receitaRepository.save(receita);
     }
 
     public Receita delete(Long id) {
         Receita Receita = get(id); // verifica se existe registro com este id
-
-        // COMANDO EM CASCATA
-        // for (ReceitaIngrediente relacionamento : receita.getRelacionamentos()) 
-        //     receitaIngredienteService.update(relacionamento);
-
         receitaRepository.deleteById(id);
         return Receita;
     }
-
-    // public Receita addIngrediente(@ResponseBody Ingrediente ingrediente) {}
-
-    // public Receita removerIngrediente(@PathVariable Long id) {}
 }

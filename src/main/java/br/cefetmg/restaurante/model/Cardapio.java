@@ -8,7 +8,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,14 +27,7 @@ public class Cardapio {
 
     @Enumerated(EnumType.STRING) 
     private EnumDia descricao;
-    
-    // @ManyToMany
-    // @JoinTable(
-    //     name = "cardapio_receita",
-    //     joinColumns = @JoinColumn(name = "cardapio_id"),
-    //     inverseJoinColumns = @JoinColumn(name = "receita_id")
-    // )
-    @OneToMany
-    @JoinColumn(name = "cardapio_id")
+
+    @OneToMany(mappedBy = "cardapio")
     private List<Receita> receitas;
 }
