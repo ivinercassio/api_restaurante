@@ -6,7 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.cefetmg.restaurante.model.Cardapio;
 import br.cefetmg.restaurante.model.Receita;
+import br.cefetmg.restaurante.model.ReceitaIngrediente;
+import br.cefetmg.restaurante.model.ReceitaIngredienteId;
+import br.cefetmg.restaurante.repository.CardapioRepository;
+import br.cefetmg.restaurante.repository.ReceitaIngredienteRepository;
 import br.cefetmg.restaurante.repository.ReceitaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class ReceitaService {
     
     private final ReceitaRepository receitaRepository;
+    private final CardapioRepository cardapioRepository;
+    private final ReceitaIngredienteRepository receitaIngredienteRepository;
 
     public Receita get(Long id) {
         Receita Receita = receitaRepository.findById(id).orElse(null);
@@ -31,6 +38,18 @@ public class ReceitaService {
         receita.setId(null);
         if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
+
+        Cardapio cardapio = cardapioRepository.findById(receita.getCardapio().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrado Cardapio com o id: " + receita.getCardapio().getId()));
+        receita.setCardapio(cardapio);
+
+        List<ReceitaIngrediente> lista = receita.getItens(); 
+        receita.setItens(null);
+        Receita auxiliar = receitaRepository.save(receita); // salva receita sem os itens
+
+        if (lista != null)
+            for (ReceitaIngrediente item : lista) {
+                item = receitaIngredienteRepository.save(new ReceitaIngrediente(new ReceitaIngredienteId(auxiliar.getId(), item.getIngrediente().getId()), auxiliar, item.getIngrediente(), item.getQuantidade()));
+            }
         
         return receitaRepository.save(receita);
     }

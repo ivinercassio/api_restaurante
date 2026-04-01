@@ -42,7 +42,7 @@ public class Receita {
     private Double valor;
 
     @ManyToOne
-    @JoinColumn(name = "id_cardapio", nullable = false, foreignKey = @ForeignKey(name = "fk_receita_cardapio"))
+    @JoinColumn(name = "cardapio_id", nullable = false, foreignKey = @ForeignKey(name = "fk_receita_cardapio"))
     private Cardapio cardapio;
 
     @Builder.Default
@@ -50,12 +50,12 @@ public class Receita {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ReceitaIngrediente> itens = new ArrayList<>();
 
-    // @JsonIgnoreProperties("receitas") // este atributo nao sera incluso no json da classe
-    // public List<Ingrediente> getIngredientes() {
-    //     if (itens == null) return null;
-    //     List<Ingrediente> list = new ArrayList<>();
-    //     for (ReceitaIngrediente item : itens)
-    //         list.add(item.getIngrediente());
-    //     return list;
-    // }
+    @JsonIgnoreProperties("receitas") // este atributo nao sera incluso no json da classe
+    public List<Ingrediente> getIngredientes() {
+        if (itens == null) return null;
+        List<Ingrediente> list = new ArrayList<>();
+        for (ReceitaIngrediente item : itens)
+            list.add(item.getIngrediente());
+        return list;
+    }
 }

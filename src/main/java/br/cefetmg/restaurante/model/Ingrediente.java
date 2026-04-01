@@ -36,13 +36,4 @@ public class Ingrediente {
     @JsonIgnore 
     private List<ReceitaIngrediente> itens = new ArrayList<>();
 
-    // @JsonIgnore // o metodo nao sera incluso nos json da classe
-    // public List<Receita> getReceitas() {
-    //     if (itens == null) return null;
-    //     List<Receita> list = new ArrayList<>();
-    //     for (ReceitaIngrediente item : itens)
-    //         list.add(item.getReceita());
-    //     return list;
-    // }
-
 }
