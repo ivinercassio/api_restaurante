@@ -41,9 +41,9 @@ public class ReceitaController {
         return ResponseEntity.ok().body(registro);
     }
 
-    @PutMapping("")
-    public ResponseEntity<Receita> update(@RequestBody Receita ingrediente) {
-        Receita registro = receitaService.update(ingrediente);
+    @PutMapping("/{quantidade}")
+    public ResponseEntity<Receita> update(@RequestBody Receita ingrediente, @PathVariable String quantidade) {
+        Receita registro = receitaService.update(ingrediente, quantidade);
         return ResponseEntity.ok().body(registro);
     }
 

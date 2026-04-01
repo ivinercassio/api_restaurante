@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.cefetmg.restaurante.model.Cardapio;
+import br.cefetmg.restaurante.model.Ingrediente;
 import br.cefetmg.restaurante.model.Receita;
 import br.cefetmg.restaurante.model.ReceitaIngrediente;
 import br.cefetmg.restaurante.model.ReceitaIngredienteId;
@@ -54,13 +55,29 @@ public class ReceitaService {
         return receitaRepository.save(receita);
     }
 
-    public Receita update(Receita receita) {
+    // nao funciona -> nao altera a quantidade 
+    public Receita update(Receita receita, String quantidade) {
         if (receita.getId() == null)
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "O campo id é obrigatório.");
         Receita registro = get(receita.getId()); // verifica se existe registro com este id
         if (!registro.getTitulo().equals(receita.getTitulo()))
             if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
+
+        Cardapio cardapio = cardapioRepository.findById(receita.getCardapio().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrado Cardapio com o id: " + receita.getCardapio().getId()));
+        receita.setCardapio(cardapio);
+        
+        if (receita.getIngredientes() != null)
+            for (Ingrediente item : receita.getIngredientes()) {
+                ReceitaIngrediente relacionamento = receitaIngredienteRepository.findById(new ReceitaIngredienteId(receita.getId(), item.getId())).orElse(null);
+                if (relacionamento == null)
+                    receitaIngredienteRepository.save(new ReceitaIngrediente(new ReceitaIngredienteId(receita.getId(), item.getId()), receita, item, quantidade));
+                else {
+                    Integer novaQuantidade = Integer.parseInt(relacionamento.getQuantidade()) + Integer.parseInt(quantidade);
+                    receitaIngredienteRepository.save(new ReceitaIngrediente(new ReceitaIngredienteId(receita.getId(), item.getId()), receita, item, String.valueOf(novaQuantidade)));
+                }
+        }
+
         return receitaRepository.save(receita);
     }
 
