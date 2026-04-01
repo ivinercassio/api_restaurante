@@ -31,6 +31,7 @@ public class ReceitaService {
         receita.setId(null);
         if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
+        
         return receitaRepository.save(receita);
     }
 

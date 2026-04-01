@@ -2,6 +2,8 @@ package br.cefetmg.restaurante.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,5 +31,6 @@ public class Cardapio {
     private EnumDia descricao;
 
     @OneToMany(mappedBy = "cardapio")
+    @JsonIgnore
     private List<Receita> receitas;
 }

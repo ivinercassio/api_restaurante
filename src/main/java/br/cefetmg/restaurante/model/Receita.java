@@ -50,12 +50,12 @@ public class Receita {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ReceitaIngrediente> itens = new ArrayList<>();
 
-    @JsonIgnoreProperties("receitas") // este atributo nao sera incluso no json da classe
-    public List<Ingrediente> getIngredientes() {
-        if (itens == null) return null;
-        List<Ingrediente> list = new ArrayList<>();
-        for (ReceitaIngrediente item : itens)
-            list.add(item.getIngrediente());
-        return list;
-    }
+    // @JsonIgnoreProperties("receitas") // este atributo nao sera incluso no json da classe
+    // public List<Ingrediente> getIngredientes() {
+    //     if (itens == null) return null;
+    //     List<Ingrediente> list = new ArrayList<>();
+    //     for (ReceitaIngrediente item : itens)
+    //         list.add(item.getIngrediente());
+    //     return list;
+    // }
 }
