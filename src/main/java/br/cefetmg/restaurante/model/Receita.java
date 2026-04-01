@@ -3,10 +3,6 @@ package br.cefetmg.restaurante.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Entity;
@@ -14,8 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,17 +42,9 @@ public class Receita {
     @JoinColumn(name = "id_cardapio", nullable = false, foreignKey = @ForeignKey(name = "fk_receita_cardapio"))
     private Cardapio cardapio;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<ReceitaIngrediente> itens = new ArrayList<>();
-
-    // @JsonIgnoreProperties("receitas") // este atributo nao sera incluso no json da classe
-    // public List<Ingrediente> getIngredientes() {
-    //     if (itens == null) return null;
-    //     List<Ingrediente> list = new ArrayList<>();
-    //     for (ReceitaIngrediente item : itens)
-    //         list.add(item.getIngrediente());
-    //     return list;
-    // }
+    @ManyToMany
+    @JoinTable(name = "receita_ingrediente", joinColumns = {
+            @JoinColumn(name = "receita_id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "ingrediente_id") })
+    private List<Ingrediente> ingredientes = new ArrayList<>();
 }

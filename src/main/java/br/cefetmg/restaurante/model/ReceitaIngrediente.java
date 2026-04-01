@@ -1,7 +1,5 @@
 package br.cefetmg.restaurante.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -27,13 +25,13 @@ public class ReceitaIngrediente {
     @ManyToOne
     @MapsId("idReceita")
     @JoinColumn(name = "receita_id")
-    @JsonIgnoreProperties("ingredientes")
+    // @JsonIgnoreProperties("ingredientes")
     private Receita receita;
 
     @ManyToOne
     @MapsId("idIngrediente")
     @JoinColumn(name = "ingrediente_id")
-    @JsonIgnoreProperties("receitas")
+    // @JsonIgnoreProperties("receitas")
     private Ingrediente ingrediente;
 
     @Column(nullable = false)
