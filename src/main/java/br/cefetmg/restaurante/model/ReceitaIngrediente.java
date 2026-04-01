@@ -21,17 +21,19 @@ import lombok.NoArgsConstructor;
 public class ReceitaIngrediente {
     
     @EmbeddedId
+    @Builder.Default
     private ReceitaIngredienteId id = new ReceitaIngredienteId();
 
     @ManyToOne
     @MapsId("idReceita")
     @JoinColumn(name = "receita_id")
-    @JsonIgnoreProperties("itens")
+    @JsonIgnoreProperties("ingredientes")
     private Receita receita;
 
     @ManyToOne
     @MapsId("idIngrediente")
     @JoinColumn(name = "ingrediente_id")
+    @JsonIgnoreProperties("receitas")
     private Ingrediente ingrediente;
 
     @Column(nullable = false)

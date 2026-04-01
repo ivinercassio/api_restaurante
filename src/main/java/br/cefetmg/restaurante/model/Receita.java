@@ -3,6 +3,9 @@ package br.cefetmg.restaurante.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ForeignKey;
@@ -42,17 +45,17 @@ public class Receita {
     @JoinColumn(name = "id_cardapio", nullable = false, foreignKey = @ForeignKey(name = "fk_receita_cardapio"))
     private Cardapio cardapio;
 
+    @Builder.Default
     @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ReceitaIngrediente> itens = new ArrayList<>();
 
-    public void addIngrediente(Ingrediente ingrediente, String quantidade) {
-    ReceitaIngrediente item = ReceitaIngrediente.builder()
-            .receita(this)
-            .ingrediente(ingrediente)
-            .quantidade(quantidade)
-            .build();
-    this.itens.add(item);
-}
-
-    // public Receita removerIngrediente(@PathVariable Long id) {}
+    @JsonIgnoreProperties("receitas") // este atributo nao sera incluso no json da classe
+    public List<Ingrediente> getIngredientes() {
+        if (itens == null) return null;
+        List<Ingrediente> list = new ArrayList<>();
+        for (ReceitaIngrediente item : itens)
+            list.add(item.getIngrediente());
+        return list;
+    }
 }

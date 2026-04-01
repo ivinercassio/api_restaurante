@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.cefetmg.restaurante.model.Receita;
-import br.cefetmg.restaurante.model.ReceitaIngrediente;
 import br.cefetmg.restaurante.repository.ReceitaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -32,14 +31,6 @@ public class ReceitaService {
         receita.setId(null);
         if (receitaRepository.findByTitulo(receita.getTitulo()) != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Título já está sendo usada em outra Receita.");
-
-        // OPERACOES MANUAIS
-        List<ReceitaIngrediente> itens = receita.getItens();
-        receita.setItens(null);
-        // receita.getCardapio().getId(); // consultar se cardapio existe
-        for (ReceitaIngrediente item : itens) {
-            receita.addIngrediente(item.getIngrediente(), item.getQuantidade());
-        }
         return receitaRepository.save(receita);
     }
 
@@ -58,4 +49,7 @@ public class ReceitaService {
         receitaRepository.deleteById(id);
         return Receita;
     }
+
+    // add ingrediente
+    // remove ingrediente
 }

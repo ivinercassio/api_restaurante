@@ -1,10 +1,17 @@
 package br.cefetmg.restaurante.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +30,19 @@ public class Ingrediente {
     
     @Column(nullable = false, unique = true)
     private String descricao;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore 
+    private List<ReceitaIngrediente> itens = new ArrayList<>();
+
+    @JsonIgnore // o metodo nao sera incluso nos json da classe
+    public List<Receita> getReceitas() {
+        if (itens == null) return null;
+        List<Receita> list = new ArrayList<>();
+        for (ReceitaIngrediente item : itens)
+            list.add(item.getReceita());
+        return list;
+    }
 
 }

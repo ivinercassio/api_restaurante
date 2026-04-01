@@ -28,6 +28,6 @@ public class Cardapio {
     @Enumerated(EnumType.STRING) 
     private EnumDia descricao;
 
-    // @OneToMany(mappedBy = "cardapio")
-    // private List<Receita> receitas;
+    @OneToMany(mappedBy = "cardapio")
+    private List<Receita> receitas;
 }

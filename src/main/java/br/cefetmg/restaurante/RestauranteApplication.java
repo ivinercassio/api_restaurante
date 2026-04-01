@@ -13,9 +13,10 @@ public class RestauranteApplication {
 		 * API RESTAURANTE
 		 * UM CARDAPIO POR DIA (CADA UM COM VARIOS PRATOS)
 		 * ingrediente - várias - receitas
-		 * receita - vários - ingredientes
+		 * receita - vários - ingredientes 
 		 * cardápio - várias - receitas
-		 * restaurante - vários - cardápios (por dia)
+		 * 
+		 * service de receitas adiciona ingredientes a lista
 		 */
 	}
 
