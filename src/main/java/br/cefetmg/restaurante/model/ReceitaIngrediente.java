@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity(name = "receita_ingrediente")
 public class ReceitaIngrediente {
-    
+
     @EmbeddedId
     @Builder.Default
     private ReceitaIngredienteId id = new ReceitaIngredienteId();
@@ -33,8 +33,5 @@ public class ReceitaIngrediente {
     private Ingrediente ingrediente;
 
     @Column(nullable = false)
-    private Double quantidade;
-
-    @Column(nullable = false)
-    private EnumUnidade unidade;
+    private String quantidade;
 }

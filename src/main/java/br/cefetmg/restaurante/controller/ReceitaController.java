@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.cefetmg.restaurante.model.Ingrediente;
 import br.cefetmg.restaurante.model.Receita;
+import br.cefetmg.restaurante.model.ReceitaIngrediente;
 import br.cefetmg.restaurante.service.ReceitaService;
 import lombok.RequiredArgsConstructor;
 
@@ -51,5 +53,17 @@ public class ReceitaController {
     public ResponseEntity<Receita> delete(@PathVariable Long id) {
         Receita receita = receitaService.delete(id);
         return ResponseEntity.ok().body(receita);
+    }
+
+    @PostMapping("/{idReceita}/qtd/{quantidade}")
+    public ResponseEntity<List<Ingrediente>> addIngrediente(@RequestBody Ingrediente ingrediente, @PathVariable Long idReceita, @PathVariable String quantidade) {
+        List<Ingrediente> lista = receitaService.addIngrediente(ingrediente, idReceita, quantidade);
+        return ResponseEntity.ok().body(lista);
+    }
+
+    @DeleteMapping("/{idReceita}/ingrediente/{idIngrediente}")
+    public ResponseEntity<List<Ingrediente>> addIngrediente(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
+        List<Ingrediente> lista = receitaService.removeIngrediente(idIngrediente, idIngrediente);
+        return ResponseEntity.ok().body(lista);
     }
 }
