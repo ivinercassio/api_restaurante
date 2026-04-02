@@ -5,13 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.cefetmg.restaurante.model.Ingrediente;
 import br.cefetmg.restaurante.model.Receita;
-import br.cefetmg.restaurante.model.ReceitaIngrediente;
-import br.cefetmg.restaurante.model.ReceitaIngredienteDTO;
-import br.cefetmg.restaurante.model.ReceitaIngredienteId;
-import br.cefetmg.restaurante.repository.IngredienteRepository;
-import br.cefetmg.restaurante.repository.ReceitaIngredienteRepository;
 import br.cefetmg.restaurante.repository.ReceitaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class ReceitaService {
 
     private final ReceitaRepository receitaRepository;
-    private final ReceitaIngredienteRepository relacaoRepository;
-    private final IngredienteRepository ingredienteRepository;
 
     public Receita get(Long id) {
         return receitaRepository.findById(id).orElseThrow(
@@ -56,26 +48,4 @@ public class ReceitaService {
         return Receita;
     }
 
-    public List<ReceitaIngredienteDTO> addIngrediente(ReceitaIngredienteDTO relacao) {
-        Ingrediente ingrediente = ingredienteRepository.findById(relacao.getIdIngrediente())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Não foi encontrado Ingrediente com id: " + relacao.getIdIngrediente()));
-        Receita receita = get(relacao.getIdReceita());
-        if (relacao.getQuantidade() == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O campo Quantidade é obrigatório.");
-
-        ReceitaIngredienteId idRelacao = new ReceitaIngredienteId(relacao.getIdReceita(), relacao.getIdIngrediente());
-        relacaoRepository.save(new ReceitaIngrediente(idRelacao, receita, ingrediente, relacao.getQuantidade()));
-        return relacaoRepository.findAllByReceitaId(relacao.getIdReceita()).stream().map(ReceitaIngredienteDTO::new).toList();
-    }
-
-    public List<ReceitaIngredienteDTO> removeIngrediente(Long idReceita, Long idIngrediente) {
-        get(idReceita);
-        ingredienteRepository.findById(idIngrediente)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Não foi encontrado Ingrediente com id: " + idIngrediente));
-
-        relacaoRepository.deleteById(new ReceitaIngredienteId(idReceita, idIngrediente));
-        return relacaoRepository.findAllByReceitaId(idReceita).stream().map(ReceitaIngredienteDTO::new).toList();
-    }
 }
