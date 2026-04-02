@@ -37,7 +37,7 @@ public class IngredienteService {
     public Ingrediente update(Ingrediente ingrediente) {
         if (ingrediente.getId() == null)
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "O campo id é obrigatório.");
-        Ingrediente registro = get(ingrediente.getId()); // verifica se existe registro com este id
+        Ingrediente registro = get(ingrediente.getId()); 
         if (!registro.getDescricao().equals(ingrediente.getDescricao()))
             if (ingredienteRepository.findByDescricao(ingrediente.getDescricao()) != null)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A descrição já está sendo usada em outro ingrediente.");
@@ -45,7 +45,7 @@ public class IngredienteService {
     }
 
     public Ingrediente delete(Long id) {
-        Ingrediente ingrediente = get(id); // verifica se existe registro com este id
+        Ingrediente ingrediente = get(id); 
         ingredienteRepository.deleteById(id);
         return ingrediente;
     }

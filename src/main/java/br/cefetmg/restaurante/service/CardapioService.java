@@ -13,14 +13,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CardapioService {
-    
+
     private final CardapioRepository cardapioRepository;
 
     public Cardapio get(Long id) {
-        Cardapio cardapio = cardapioRepository.findById(id).orElse(null);
-        if (cardapio == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrado Cardapio com o id: " + id);
-        return cardapio;
+        return cardapioRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrado Cardapio com o id: " + id));
     }
 
     public List<Cardapio> getAll() {
@@ -35,12 +33,12 @@ public class CardapioService {
     public Cardapio update(Cardapio cardapio) {
         if (cardapio.getId() == null)
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "O campo id é obrigatório.");
-        get(cardapio.getId()); // verifica se existe registro com este id
+        get(cardapio.getId());
         return cardapioRepository.save(cardapio);
     }
 
     public Cardapio delete(Long id) {
-        Cardapio cardapio = get(id); // verifica se existe registro com este id
+        Cardapio cardapio = get(id); 
         cardapioRepository.deleteById(id);
         return cardapio;
     }
