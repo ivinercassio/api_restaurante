@@ -3,6 +3,9 @@ package br.cefetmg.restaurante.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Entity;
@@ -10,9 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,9 +44,7 @@ public class Receita {
     @JoinColumn(name = "id_cardapio", nullable = false, foreignKey = @ForeignKey(name = "fk_receita_cardapio"))
     private Cardapio cardapio;
 
-    @ManyToMany
-    @JoinTable(name = "receita_ingrediente", joinColumns = {
-            @JoinColumn(name = "receita_id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "ingrediente_id") })
-    private List<Ingrediente> ingredientes = new ArrayList<>();
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<ReceitaIngrediente> itens = new ArrayList<>();
 }
