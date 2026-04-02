@@ -58,7 +58,7 @@ Uma vez que o projeto esteja rodando localmente, você pode acessar a documenta�
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/seu-usuario/restaurante-api.git](https://github.com/ivinercassio/api_restaurante.git)
+   git clone https://github.com/ivinercassio/api_restaurante.git
 
 2. **Navegue até o diretório:**
    ```bash
