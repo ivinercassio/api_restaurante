@@ -16,7 +16,10 @@ public class RestauranteApplication {
 		 * receita - vários - ingredientes 
 		 * cardápio - várias - receitas
 		 * 
-		 * service de receitas adiciona ingredientes a lista
+		 * 
+		 * STATUS ATUAL: 
+		 * ADD-INGREDIENTE: nao funciona
+		 * REMOVE-INGREDIENTE: nao funciona
 		 */
 	}
 

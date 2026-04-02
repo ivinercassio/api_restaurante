@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.cefetmg.restaurante.model.Ingrediente;
 import br.cefetmg.restaurante.model.Receita;
 import br.cefetmg.restaurante.model.ReceitaIngrediente;
+import br.cefetmg.restaurante.model.ReceitaIngredienteDTO;
 import br.cefetmg.restaurante.service.ReceitaService;
 import lombok.RequiredArgsConstructor;
 
@@ -55,15 +56,21 @@ public class ReceitaController {
         return ResponseEntity.ok().body(receita);
     }
 
-    @PostMapping("/{idReceita}/qtd/{quantidade}")
-    public ResponseEntity<List<Ingrediente>> addIngrediente(@RequestBody Ingrediente ingrediente, @PathVariable Long idReceita, @PathVariable String quantidade) {
-        List<Ingrediente> lista = receitaService.addIngrediente(ingrediente, idReceita, quantidade);
+    @PostMapping("/add-ingrediente")
+    public ResponseEntity<List<ReceitaIngredienteDTO>> addIngrediente(@RequestBody ReceitaIngredienteDTO dto) {
+        List<ReceitaIngredienteDTO> lista = receitaService.addIngrediente(dto);
+        return ResponseEntity.ok().body(lista);
+    }
+
+    @PutMapping("/update-ingrediente")
+    public ResponseEntity<List<ReceitaIngredienteDTO>> updateIngrediente(@RequestBody ReceitaIngredienteDTO dto) {
+        List<ReceitaIngredienteDTO> lista = receitaService.updateIngrediente(dto);
         return ResponseEntity.ok().body(lista);
     }
 
     @DeleteMapping("/{idReceita}/ingrediente/{idIngrediente}")
-    public ResponseEntity<List<Ingrediente>> addIngrediente(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
-        List<Ingrediente> lista = receitaService.removeIngrediente(idIngrediente, idIngrediente);
+    public ResponseEntity<List<ReceitaIngredienteDTO>> addIngrediente(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
+        List<ReceitaIngredienteDTO> lista = receitaService.removeIngrediente(idIngrediente, idIngrediente);
         return ResponseEntity.ok().body(lista);
     }
 }
