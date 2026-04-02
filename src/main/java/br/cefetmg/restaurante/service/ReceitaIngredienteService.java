@@ -67,9 +67,9 @@ public class ReceitaIngredienteService {
     }
 
     public List<ReceitaIngredienteDTO> getAllByIngredienteId(Long id) {
-        receitaRepository.findById(id)
+        ingredienteRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Não foi encontrada Receita com id: " + id));
+                        "Não foi encontrada Ingrediente com id: " + id));
         return relacaoRepository.findAllByIngredienteId(id).stream().map(ReceitaIngredienteDTO::new).toList();
     }
 

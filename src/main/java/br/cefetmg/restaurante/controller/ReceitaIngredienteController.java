@@ -31,7 +31,7 @@ public class ReceitaIngredienteController {
     
     @DeleteMapping("/delete/receita/{idReceita}/ingrediente/{idIngrediente}")
     public ResponseEntity<ReceitaIngredienteDTO> addIngrediente(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
-        ReceitaIngredienteDTO relacao = relacaoService.removeIngrediente(idIngrediente, idIngrediente);
+        ReceitaIngredienteDTO relacao = relacaoService.removeIngrediente(idReceita, idIngrediente);
         return ResponseEntity.ok().body(relacao);
     }
 
@@ -55,7 +55,7 @@ public class ReceitaIngredienteController {
 
     @GetMapping("/receita/{idReceita}/ingrediente/{idIngrediente}")
     public ResponseEntity<ReceitaIngredienteDTO> getById(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
-        ReceitaIngredienteDTO relacao = relacaoService.getById(idIngrediente, idIngrediente);
+        ReceitaIngredienteDTO relacao = relacaoService.getById(idReceita, idIngrediente);
         return ResponseEntity.ok().body(relacao);
     }
 }
