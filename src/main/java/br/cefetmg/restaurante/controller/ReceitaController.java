@@ -62,12 +62,6 @@ public class ReceitaController {
         return ResponseEntity.ok().body(lista);
     }
 
-    @PutMapping("/update-ingrediente")
-    public ResponseEntity<List<ReceitaIngredienteDTO>> updateIngrediente(@RequestBody ReceitaIngredienteDTO dto) {
-        List<ReceitaIngredienteDTO> lista = receitaService.updateIngrediente(dto);
-        return ResponseEntity.ok().body(lista);
-    }
-
     @DeleteMapping("/{idReceita}/ingrediente/{idIngrediente}")
     public ResponseEntity<List<ReceitaIngredienteDTO>> addIngrediente(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
         List<ReceitaIngredienteDTO> lista = receitaService.removeIngrediente(idIngrediente, idIngrediente);

@@ -69,24 +69,6 @@ public class ReceitaService {
         return relacaoRepository.findAllByReceitaId(relacao.getIdReceita()).stream().map(ReceitaIngredienteDTO::new).toList();
     }
 
-    public List<ReceitaIngredienteDTO> updateIngrediente(ReceitaIngredienteDTO relacao) {
-        ingredienteRepository.findById(relacao.getIdIngrediente())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Não foi encontrado Ingrediente com id: " + relacao.getIdIngrediente()));
-        get(relacao.getIdReceita());
-        if (relacao.getQuantidade() == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O campo Quantidade é obrigatório.");
-
-        for (ReceitaIngrediente registro : relacaoRepository.findAll())
-            if (registro.getIngrediente().getId() == relacao.getIdIngrediente()
-                    && registro.getReceita().getId() == relacao.getIdReceita()) {
-                registro.setQuantidade(relacao.getQuantidade());
-                relacaoRepository.save(registro);
-                return relacaoRepository.findAllByReceitaId(relacao.getIdReceita()).stream().map(ReceitaIngredienteDTO::new).toList();
-            }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrado associação entre Receita e Ingrediente informados.");
-    }
-
     public List<ReceitaIngredienteDTO> removeIngrediente(Long idReceita, Long idIngrediente) {
         get(idReceita);
         ingredienteRepository.findById(idIngrediente)
