@@ -25,8 +25,8 @@ public class ReceitaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Receita> get(@PathVariable Long id) {
-        Receita ingrediente = receitaService.get(id);
-        return ResponseEntity.ok().body(ingrediente);
+        Receita receita = receitaService.get(id);
+        return ResponseEntity.ok().body(receita);
     }
 
     @GetMapping("")
@@ -36,20 +36,20 @@ public class ReceitaController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Receita> insert(@RequestBody Receita ingrediente) {
-        Receita registro = receitaService.insert(ingrediente);
+    public ResponseEntity<Receita> insert(@RequestBody Receita receita) {
+        Receita registro = receitaService.insert(receita);
         return ResponseEntity.ok().body(registro);
     }
 
-    @PutMapping("/{quantidade}")
-    public ResponseEntity<Receita> update(@RequestBody Receita ingrediente, @PathVariable String quantidade) {
-        Receita registro = receitaService.update(ingrediente, quantidade);
+    @PutMapping("")
+    public ResponseEntity<Receita> update(@RequestBody Receita receita) {
+        Receita registro = receitaService.update(receita);
         return ResponseEntity.ok().body(registro);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Receita> delete(@PathVariable Long id) {
-        Receita ingrediente = receitaService.delete(id);
-        return ResponseEntity.ok().body(ingrediente);
+        Receita receita = receitaService.delete(id);
+        return ResponseEntity.ok().body(receita);
     }
 }

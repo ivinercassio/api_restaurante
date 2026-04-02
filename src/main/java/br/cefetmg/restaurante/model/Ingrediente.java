@@ -23,17 +23,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity(name = "ingrediente")
 public class Ingrediente {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
-    
+    private Long id;
+
     @Column(nullable = false, unique = true)
     private String descricao;
 
-    @Builder.Default
     @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore 
+    @JsonIgnore
     private List<ReceitaIngrediente> itens = new ArrayList<>();
 
 }
