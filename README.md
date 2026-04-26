@@ -47,10 +47,10 @@ Uma vez que o projeto esteja rodando localmente, você pode acessar a documenta�
 
 | Método | Endpoint | Descrição |
 | :--- | :--- | :--- |
-| `GET` | `/api/v1/receitas` | Lista todas as receitas cadastradas. |
-| `POST` | `/api/v1/relacoes/insert` | Cria o vínculo entre uma receita e um ingrediente. |
-| `GET` | `/api/v1/relacoes/receita/{id}` | Busca todos os ingredientes de uma receita específica. |
-| `DELETE` | `/api/v1/relacoes/delete/receita/{idR}/ingrediente/{idI}` | Remove um ingrediente específico de uma receita. |
+| `GET` | `/api/v2/receitas` | Lista todas as receitas cadastradas. |
+| `POST` | `/api/v2/relacoes/insert` | Cria o vínculo entre uma receita e um ingrediente. |
+| `GET` | `/api/v2/relacoes/receita/{id}` | Busca todos os ingredientes de uma receita específica. |
+| `DELETE` | `/api/v2/relacoes/delete/receita/{idR}/ingrediente/{idI}` | Remove um ingrediente específico de uma receita. |
 
 ---
 

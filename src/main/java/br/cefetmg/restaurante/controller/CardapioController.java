@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/cardapios")
+@RequestMapping("/api/v2/cardapios")
 public class CardapioController {
 
     private final CardapioService cardapioService;
