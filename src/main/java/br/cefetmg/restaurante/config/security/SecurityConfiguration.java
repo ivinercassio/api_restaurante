@@ -38,7 +38,7 @@ public class SecurityConfiguration{
             "/webjars/**"
     };
 
-    public static final String AUTH_URI = "/api/auth/**";
+    public static final String AUTH_URI = "/api/v1/auth/**";
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {

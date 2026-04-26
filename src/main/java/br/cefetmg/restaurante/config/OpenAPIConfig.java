@@ -16,7 +16,7 @@ public class OpenAPIConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Restaurante API")
-                        .version("1.0")
+                        .version("2.0")
                         .description("Documentação da API de gerenciamento do Restaurante"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()

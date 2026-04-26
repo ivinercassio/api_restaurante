@@ -2,6 +2,7 @@ package br.cefetmg.restaurante.controller;
 
 import br.cefetmg.restaurante.controller.dto.LoginRequest;
 import br.cefetmg.restaurante.controller.dto.LoginResponse;
+import br.cefetmg.restaurante.model.security.Usuario;
 import br.cefetmg.restaurante.service.AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;

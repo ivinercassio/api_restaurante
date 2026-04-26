@@ -8,6 +8,9 @@ import br.cefetmg.restaurante.model.security.Usuario;
 import br.cefetmg.restaurante.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.LocalDateTime;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
@@ -74,7 +77,7 @@ public class AuthorizationService implements UserDetailsService {
         //Verificar se o usuario já existe
         Usuario usuario = null;
         try{
-            usuario = usuarioRepository.getByEmail(data.getEmail());
+            usuario = usuarioRepository.findByLogin(data.getLogin()).get();
             if (usuario != null){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Usuário já existente");
             }
@@ -83,17 +86,19 @@ public class AuthorizationService implements UserDetailsService {
         }
 
         //codificar a senha e cria usuário para iserir no banco.
-        String encryptedPassword = passwordEncoder.encode(data.getSenha());
+        String encryptedPassword = passwordEncoder.encode(data.getPassword());
         usuario = Usuario.builder()
                 .nome(data.getNome())
-                .email(data.getEmail())
-                .senha(encryptedPassword)
-                .role(data.getRole())
+                .login(data.getLogin())
+                .password(encryptedPassword)
+                .perfis(data.getPerfis())
+                .dtCriacao(LocalDateTime.now())
+                .dtAlteracao(LocalDateTime.now())
                 .build();
 
         //Tenta inserir no banco de dados o usuario
         try{
-            usuarioRepository.insert(usuario);
+            usuarioRepository.save(usuario);
         }catch (Throwable e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro de banco de dados: " + e.getMessage(), e);
         }
