@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "perfil")
 public class Perfil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
