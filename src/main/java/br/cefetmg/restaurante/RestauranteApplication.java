@@ -15,11 +15,6 @@ public class RestauranteApplication {
 		 * ingrediente - várias - receitas
 		 * receita - vários - ingredientes 
 		 * cardápio - várias - receitas
-		 * 
-		 * 
-		 * STATUS ATUAL: 
-		 * ADD-INGREDIENTE: nao funciona
-		 * REMOVE-INGREDIENTE: nao funciona
 		 */
 	}
 

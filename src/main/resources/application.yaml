@@ -3,28 +3,26 @@ spring:
     name: restaurante
 
   datasource:
-    url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/restaurante}
+    url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/restaurante?useSSL=false&serverTimezone=UTC}
     username: ${DB_USER:root}
     password: ${DB_PASSWORD:}
-    driver-class-name: ${DATASOURCE_DRIVER:com.mysql.cj.jdbc.Driver}
-    # initialization-mode: always
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   sql:
     init:
       mode: always
 
   jpa:
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop 
-      # ddl-auto: update 
+      ddl-auto: create
+      # ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        #dialect: org.hibernate.dialect.MySQLDialect
-    defer-datasource-initialization: true
 
 api:
   security:
     token:
-      secret: ${SECURITY_TOKEN_KEY:segredo}
+      secret: ${SECURITY_TOKEN_KEY}
