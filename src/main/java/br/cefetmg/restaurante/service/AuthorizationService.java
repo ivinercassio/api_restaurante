@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,25 +41,25 @@ public class AuthorizationService implements UserDetailsService {
 
     public LoginResponse login(
             LoginRequest data,
-            AuthenticationManager authenticationManager)
-    {
-        //Criar este objeto utilizado para a autenticação.
+            AuthenticationManager authenticationManager) {
+        // Criar este objeto utilizado para a autenticação.
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getSenha());
 
-        //Buscar o usuario no banco para logar na base de sessions autorizadas e não autorizadas.
+        // Buscar o usuario no banco para logar na base de sessions autorizadas e não
+        // autorizadas.
         var usuario = usuarioRepository.findByLogin(data.getLogin()).orElse(null);
 
-        //Realiza a autenticação e se der erro captura o erro correto.
+        // Realiza a autenticação e se der erro captura o erro correto.
         Authentication auth = null;
-        try{
+        try {
             auth = authenticationManager.authenticate(usernamePassword);
-        }catch(LockedException e){
+        } catch (LockedException e) {
             log.error(lockedExceptionMessage + " - " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.LOCKED, lockedExceptionMessage, e);
-        }catch(DisabledException e){
+        } catch (DisabledException e) {
             log.error(DisabledExceptionMessage + " - " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.LOCKED, DisabledExceptionMessage, e);
-        }catch (AuthenticationException e){
+        } catch (AuthenticationException e) {
             log.error(AuthenticationExceptionMessage + " - " + e.getMessage() + "(" + e.getClass().getName() + ")");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, AuthenticationExceptionMessage, e);
         }
@@ -67,27 +68,22 @@ public class AuthorizationService implements UserDetailsService {
 
         var loginResponseDto = new LoginResponse(token, usuario);
 
-        //var defaultResponseDto = new DefaultResponseDto("Login efetuado com sucesso", 200, loginResponseDto);
+        // var defaultResponseDto = new DefaultResponseDto("Login efetuado com sucesso",
+        // 200, loginResponseDto);
 
         return loginResponseDto;
     }
 
-    /*
     public Usuario register(Usuario data) {
-        //Verificar se o usuario já existe
-        Usuario usuario = null;
-        try{
-            usuario = usuarioRepository.findByLogin(data.getLogin()).get();
-            if (usuario != null){
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Usuário já existente");
-            }
-        }catch (Throwable e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro de banco de dados: " + e.getMessage(), e);
+        // Verificar se o usuario já existe
+        Optional<Usuario> registro = usuarioRepository.findByLogin(data.getLogin());;
+        if (registro.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Usuário já existente");
         }
-
-        //codificar a senha e cria usuário para iserir no banco.
+        
+        // codificar a senha e cria usuário para iserir no banco.
         String encryptedPassword = passwordEncoder.encode(data.getPassword());
-        usuario = Usuario.builder()
+        Usuario usuario = Usuario.builder()
                 .nome(data.getNome())
                 .login(data.getLogin())
                 .password(encryptedPassword)
@@ -96,34 +92,35 @@ public class AuthorizationService implements UserDetailsService {
                 .dtAlteracao(LocalDateTime.now())
                 .build();
 
-        //Tenta inserir no banco de dados o usuario
-        try{
+        // Tenta inserir no banco de dados o usuario
+        try {
             usuarioRepository.save(usuario);
-        }catch (Throwable e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro de banco de dados: " + e.getMessage(), e);
+        } catch (Throwable e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Erro de banco de dados: " + e.getMessage(), e);
         }
 
         return usuario;
     }
-     */
 
     /*
-    public DefaultResponseDto sendRecoveryPassWordLink(AuthenticationDto data) {
-        return null;
-    }
-
-    public DefaultResponseDto sendRecoveryPassWordEnd(AuthenticationDto data) {
-        return null;
-    }
-    */
+     * public DefaultResponseDto sendRecoveryPassWordLink(AuthenticationDto data) {
+     * return null;
+     * }
+     * 
+     * public DefaultResponseDto sendRecoveryPassWordEnd(AuthenticationDto data) {
+     * return null;
+     * }
+     */
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserDetails user = null;
-        try{
+        try {
             user = usuarioRepository.findByLogin(login).orElse(null);
-        }catch (Throwable e){
-            throw new UsernameNotFoundException("Erro ao consultar usuário pelo login: " + login + " - " + e.getMessage());
+        } catch (Throwable e) {
+            throw new UsernameNotFoundException(
+                    "Erro ao consultar usuário pelo login: " + login + " - " + e.getMessage());
         }
 
         return user;

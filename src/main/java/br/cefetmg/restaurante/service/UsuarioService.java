@@ -25,13 +25,6 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario insert(Usuario usuario) {
-        usuario.setId(null);
-        if (usuarioRepository.findByLogin(usuario.getLogin()).isPresent())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Login já está sendo usado por outro Usuário.");
-        return usuarioRepository.save(usuario);
-    }
-
     public Usuario update(Usuario usuario) {
         if (usuario.getId() == null)
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "O campo id é obrigatório.");

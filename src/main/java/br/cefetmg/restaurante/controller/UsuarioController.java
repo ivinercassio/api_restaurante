@@ -39,13 +39,6 @@ public class UsuarioController {
         return ResponseEntity.ok().body(lista);
     }
 
-    @PostMapping("/insert")
-    // @PreAuthorize("hasAuthority('FULL_CONTROL')")
-    public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario) {
-        Usuario registro = usuarioService.insert(usuario);
-        return ResponseEntity.ok().body(registro);
-    }
-
     @PutMapping("")
     @PreAuthorize("hasAuthority('FULL_CONTROL')")
     public ResponseEntity<Usuario> update(@RequestBody Usuario usuario) {
