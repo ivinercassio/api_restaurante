@@ -26,35 +26,35 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USUARIO_GET')")
+    @PreAuthorize("hasAuthority('FULL_CONTROL')")
     public ResponseEntity<Usuario> get(@PathVariable Long id) {
         Usuario usuario = usuarioService.get(id);
         return ResponseEntity.ok().body(usuario);
     }
 
     @GetMapping("")
-    @PreAuthorize("hasAuthority('USUARIO_GET')")
+    @PreAuthorize("hasAuthority('FULL_CONTROL')")
     public ResponseEntity<List<Usuario>> getAll() {
         List<Usuario> lista = usuarioService.getAll();
         return ResponseEntity.ok().body(lista);
     }
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('USUARIO_POST')")
+    @PreAuthorize("hasAuthority('FULL_CONTROL')")
     public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario) {
         Usuario registro = usuarioService.insert(usuario);
         return ResponseEntity.ok().body(registro);
     }
 
     @PutMapping("")
-    @PreAuthorize("hasAuthority('USUARIO_PUT')")
+    @PreAuthorize("hasAuthority('FULL_CONTROL')")
     public ResponseEntity<Usuario> update(@RequestBody Usuario usuario) {
         Usuario registro = usuarioService.update(usuario);
         return ResponseEntity.ok().body(registro);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('USUARIO_DELETE')")
+    @PreAuthorize("hasAuthority('FULL_CONTROL')")
     public ResponseEntity<Usuario> delete(@PathVariable Long id) {
         Usuario usuario = usuarioService.delete(id);
         return ResponseEntity.ok().body(usuario);
