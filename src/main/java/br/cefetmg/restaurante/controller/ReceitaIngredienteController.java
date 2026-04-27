@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v2/relacoes")
+@RequestMapping("/api/v2/receita-ingrediente")
 public class ReceitaIngredienteController {
     
     private final ReceitaIngredienteService relacaoService;
@@ -33,7 +33,7 @@ public class ReceitaIngredienteController {
     
     @DeleteMapping("/delete/receita/{idReceita}/ingrediente/{idIngrediente}")
     @PreAuthorize("hasAuthority('RECEITAINGREDIENTE_DELETE')")
-    public ResponseEntity<ReceitaIngredienteDTO> addIngrediente(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
+    public ResponseEntity<ReceitaIngredienteDTO> removeIngrediente(@PathVariable Long idReceita, @PathVariable Long idIngrediente) {
         ReceitaIngredienteDTO relacao = relacaoService.removeIngrediente(idReceita, idIngrediente);
         return ResponseEntity.ok().body(relacao);
     }
