@@ -23,7 +23,7 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration{
+public class SecurityConfiguration {
     private final SecurityFilter securityFilter;
 
     @Value("${springdoc.swagger-ui.enabled:false}")
@@ -50,18 +50,18 @@ public class SecurityConfiguration{
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
-                        CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(Arrays.asList("*"));
-                        configuration.setAllowedMethods(List.of("POST", "PUT", "PATCH", "GET", "OPTIONS", "DELETE"));
-                        configuration.setAllowedHeaders(Arrays.asList("*"));
-                        return configuration;
-                    }))
-                //deixa as requisicoes stateless ou seja via toke
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(Arrays.asList("*"));
+                    configuration.setAllowedMethods(List.of("POST", "PUT", "PATCH", "GET", "OPTIONS", "DELETE"));
+                    configuration.setAllowedHeaders(Arrays.asList("*"));
+                    return configuration;
+                }))
+                // deixa as requisicoes stateless ou seja via toke
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                        authorize->authorize
-                                .requestMatchers(AUTH_URI ).permitAll() // Login continua público
-                                .requestMatchers(SWAGGER_WHITELIST ).permitAll() //Swagger fica publico
+                        authorize -> authorize
+                                .requestMatchers(AUTH_URI).permitAll() // Login continua público
+                                .requestMatchers(SWAGGER_WHITELIST).permitAll() // Swagger fica publico
                                 .anyRequest().authenticated() // Todo o resto exige apenas estar logado
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -69,7 +69,7 @@ public class SecurityConfiguration{
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }

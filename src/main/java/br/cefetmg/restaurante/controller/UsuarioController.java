@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsuarioController {
 
+    // somente perfil de ADMIN deve possuir estas permissoes
     private final UsuarioService usuarioService;
     
     @GetMapping("/{id}")

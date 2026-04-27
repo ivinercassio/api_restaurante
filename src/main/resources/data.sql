@@ -24,11 +24,13 @@ INSERT INTO permissao (nome, dt_criacao, dt_alteracao) VALUES ('USUARIO_POST', N
 INSERT INTO permissao (nome, dt_criacao, dt_alteracao) VALUES ('USUARIO_PUT', NOW(), NOW());
 INSERT INTO permissao (nome, dt_criacao, dt_alteracao) VALUES ('USUARIO_DELETE', NOW(), NOW());
 
+INSERT INTO permissao (nome, dt_criacao, dt_alteracao) VALUES ('PERMISSAO_FULL', NOW(), NOW());
+
 -- Perfil
-INSERT INTO perfil (nome, dt_criacao, dt_alteracao) VALUES ('ADMIN', NOW(), NOW());
-INSERT INTO perfil (nome, dt_criacao, dt_alteracao) VALUES ('COZINHEIRO', NOW(), NOW());
+INSERT INTO perfil (nome, dt_criacao, dt_alteracao) VALUES ('ADMIN', NOW(), NOW()); -- controle total
+INSERT INTO perfil (nome, dt_criacao, dt_alteracao) VALUES ('FUNCIONARIO', NOW(), NOW());
 
 -- Perfil_Permissoes (tabela relacional)
-INSERT INTO perfis_permissoes (perfil_id, permissao_id) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10), (1, 11), (1, 12), (1, 13), (1, 14), (1, 15);
+INSERT INTO perfis_permissoes (perfil_id, permissao_id) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10), (1, 11), (1, 12), (1, 13), (1, 14), (1, 15), (1, 16), (1, 17), (1, 18), (1, 19), (1, 20);
 
-INSERT INTO perfis_permissoes (perfil_id, permissao_id) VALUES (2, 1), (1, 5), (1, 6), (1, 7), (1, 9), (1, 10), (1, 11), (1, 13), (1, 14);
+INSERT INTO perfis_permissoes (perfil_id, permissao_id) VALUES (2, 1), (2, 5), (2, 6), (2, 7), (2, 9), (2, 10), (2, 11), (2, 13), (2, 14);
