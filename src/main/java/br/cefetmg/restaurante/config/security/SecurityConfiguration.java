@@ -40,6 +40,8 @@ public class SecurityConfiguration {
 
     public static final String AUTH_URI = "/api/v2/auth/**";
 
+    public static final String CREATE_USER = "/api/v2/usuarios/insert";
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
         return authConfiguration.getAuthenticationManager();
@@ -60,7 +62,8 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers(AUTH_URI).permitAll() // Login continua público
+                                .requestMatchers(CREATE_USER).permitAll() // Criacao novo Usuario
+                                .requestMatchers(AUTH_URI).permitAll() // Login público
                                 .requestMatchers(SWAGGER_WHITELIST).permitAll() // Swagger fica publico
                                 .anyRequest().authenticated() // Todo o resto exige apenas estar logado
                 )

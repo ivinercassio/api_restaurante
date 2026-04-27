@@ -12,7 +12,7 @@ public class UsuarioPerfilDTO {
     private Long usuario_id;
 
     public UsuarioPerfilDTO(UsuarioPerfil relacao) {
-        this.usuario_id = relacao.getUsuario().getId();
-        this.perfil_id = relacao.getPerfil().getId();
+        this.usuario_id = relacao.getId().getUsuarioId();
+        this.perfil_id = relacao.getId().getPerfilId();
     }    
 }
